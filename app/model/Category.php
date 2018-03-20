@@ -94,6 +94,8 @@ class Category
 
             $grid .= "</tbody></table>";
             return $grid;
+        } else {
+            return $grid;
         }
     }
 
@@ -112,18 +114,17 @@ class Category
         $result->execute();
         $result->setFetchMode(PDO::FETCH_ASSOC);
 
-        if ($result->fetch() == true) {
-
             $i = 0;
             while ($row = $result->fetch()) {
                 $categoryList[$i]['id'] = $row['id'];
                 $categoryList[$i]['name'] = $row['name'];
                 $i++;
             }
-            return $categoryList;
-        } else {
-            return false;
-        }
+            if (isset($categoryList)) {
+                return $categoryList;
+            } else {
+                return false;
+            }
     }
 
 

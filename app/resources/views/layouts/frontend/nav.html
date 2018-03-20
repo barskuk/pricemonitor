@@ -12,10 +12,19 @@
     <?php else: ?>
 
         <?php if (Customer::getName()): ?>
-            <span class='navbar-text text-muted pr-3 pl-3'>Привет, <?php echo Customer::getName(); ?></span>
+            <span class='nav-item dropdown text-muted'>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <?php echo Customer::getName(); ?>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?php echo ROOTSITE; ?>cabinet">Кабинет</a>
+                    <div class="dropdown-divider"></div>
+                    <a class='dropdown-item' href="<?php echo ROOTSITE; ?>logout">Выход</a>
+                </div>
+            </span>
         <?php endif; ?>
 
-        <a class='btn btn-outline-primary' href="<?php echo ROOTSITE; ?>logout">Выход</a>
+
     <?php endif; ?>
 
 </div>

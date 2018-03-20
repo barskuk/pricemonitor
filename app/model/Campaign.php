@@ -49,12 +49,14 @@ class Campaign
 
         $i = 0;
         while ($row = $result->fetch()) {
-
             $campaignIds[$i] = $row[0];
             $i++;
-
         }
-        return $campaignIds;
+        if (isset($campaignIds)) {
+            return $campaignIds;
+        } else {
+            return false;
+        }
     }
 
     public static function getCampaign($id) {

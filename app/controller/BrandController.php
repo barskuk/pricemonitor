@@ -24,7 +24,6 @@ class BrandController
             if ($errors == FALSE) {
                 $result = Brand::add($b_name, $campId);
             }
-
         }
 
         $countBrand = Brand::getTotalCountBrandsInCampagn($campId);

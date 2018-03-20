@@ -19,10 +19,7 @@ class Product
         $result->execute();
         $result->setFetchMode(PDO::FETCH_ASSOC);
 
-        $i = 0;
-
-        if ($result->fetch() == true) {
-
+            $i = 0;
             while ($row = $result->fetch()) {
                 $productsList[$i]['id'] = $row['id'];
                 $productsList[$i]['name'] = $row['name'];
@@ -31,13 +28,14 @@ class Product
                 $productsList[$i]['is_active'] = $row['is_active'];
                 $productsList[$i]['brand_id'] = $row['brand_id'];
                 $productsList[$i]['category_id'] = $row['category_id'];
-
                 $i++;
             }
-            return $productsList;
-        } else {
-            return false;
-        }
+            if (isset($productsList)) {
+                return $productsList;
+            } else {
+                return false;
+            }
+
     }
 
 
@@ -47,6 +45,7 @@ class Product
         $grid = '';
 
         if (count($products) > 0 && $products != false) {
+
             $grid = "<table class='table table-bordered'>
                         <thead>
                             <tr>
@@ -76,6 +75,7 @@ class Product
             $grid .= "</tbody></table>";
             return $grid;
         }
+        return $grid;
     }
 
 

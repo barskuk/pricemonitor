@@ -14,9 +14,6 @@ class Brand
         $result->bindParam(':campaign_id', $campId, PDO::PARAM_STR);
 
         return $result->execute();
-
-        //$arr = $result->errorInfo();
-        //print_r($arr);
     }
 
     public static function checkName($b_name) {
@@ -42,7 +39,6 @@ class Brand
         } else {
             return FALSE;
         }
-
     }
 
     public static function getTotalCountBrandsInCampagn($campId) {
@@ -96,6 +92,7 @@ class Brand
             $grid .= "</tbody></table>";
             return $grid;
         }
+        return $grid;
     }
 
     private static function getBrand($page, $camId, $count = self::SHOW_BY_DEFAULT) {
@@ -113,17 +110,19 @@ class Brand
         $result->execute();
         $result->setFetchMode(PDO::FETCH_ASSOC);
 
-        if ($result->fetch() == true) {
-            $i = 0;
-            while ($row = $result->fetch()) {
-                $brandList[$i]['id'] = $row['id'];
-                $brandList[$i]['name'] = $row['name'];
-                $i++;
-            }
+        $i = 0;
+        while ($row = $result->fetch()) {
+            $brandList[$i]['id'] = $row['id'];
+            $brandList[$i]['name'] = $row['name'];
+            $i++;
+        }
+        if (isset($brandList)) {
             return $brandList;
         } else {
             return false;
         }
+
+
     }
 
 }

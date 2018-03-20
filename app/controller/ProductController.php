@@ -79,6 +79,7 @@ class ProductController
 
         $campaign = Campaign::getCampaign($campaignId);
 
+
         //если не получаем второй параметр (номер страницы) - показываем первую страницу
         if (isset($param[1])) {
             if (strlen($param[1]) == 0) {
@@ -89,6 +90,8 @@ class ProductController
         } else {
             $page = 1;
         }
+
+        //var_dump($param);
 
         $totalProducts = Product::getTotalCountProductsInCampaign($campaignId);
 

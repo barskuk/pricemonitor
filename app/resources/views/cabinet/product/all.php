@@ -16,14 +16,17 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
 
         <?php include ROOTDIR . '/app/resources/views/layouts/frontend/error.php'; ?>
 
+
+
         <?php
         if ($totalProducts == 0) {
             echo "<div class='alert alert-warning mt-4' role='alert'>У Кампании нет товаров!</div>";
         } else {
             echo $grid;
+            echo $pagination->get();
         } ?>
 
-        <?php echo $pagination->get(); ?>
+
 
     </main>
 
