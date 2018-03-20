@@ -1,0 +1,21 @@
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal"><a class="navbar-brand-logo" href="<?php echo ROOTSITE; ?>">PriceMonitor</a></h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="features">Возможности</a>
+        <a class="p-2 text-dark" href="pricing">Тарифы и цены</a>
+        <a class="p-2 text-dark" href="support">Поддержка</a>
+    </nav>
+
+    <?php if (!Customer::isAuth()): ?>
+        <a class="pr-3 pl-3" href="login">Вход</a>
+        <a class="btn btn-outline-primary" href="register">Регистрация</a>
+    <?php else: ?>
+
+        <?php if (Customer::getName()): ?>
+            <span class='navbar-text text-muted pr-3 pl-3'>Привет, <?php echo Customer::getName(); ?></span>
+        <?php endif; ?>
+
+        <a class='btn btn-outline-primary' href="<?php echo ROOTSITE; ?>logout">Выход</a>
+    <?php endif; ?>
+
+</div>
