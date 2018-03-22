@@ -41,6 +41,22 @@ class Brand
         }
     }
 
+    //
+    public static function getId($b_name, $campId) {
+
+        $db = new DB();
+        $sql = 'SELECT id FROM brand WHERE name=:name AND campaign_id=:campaign_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':name', $b_name, PDO::PARAM_STR);
+        $result->bindParam(':campaign_id', $campId, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $id = $result->fetch();
+
+        return $id[0];
+    }
+    //
+    
     public static function getTotalCountBrandsInCampagn($campId) {
 
         $db = new DB();
