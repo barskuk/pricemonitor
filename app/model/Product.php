@@ -93,31 +93,33 @@ class Product
     }
 
 
-    public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_category, $p_brand, $p_is_active) {
+    public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_category = 1, $p_brand = 1, $p_is_active) {
 
-        if ($p_brand != 1) {
+        /*
+        if ($p_brand == -1) {
             $p_brand = self::addBrand();
         }
 
-        if ($p_category != 1) {
+        if ($p_category == -1) {
             $p_category = self::addCategory();
         }
-
+        */
+          
         $db = new DB();
 
         $sql = "INSERT INTO product (
-                                      name, 
-                                      code, 
-                                      vendor_code, 
-                                      is_active, 
-                                      brand_id, 
-                                      category_id, 
-                                      campaign_id ) 
-                                       
+                                      name,
+                                      code,
+                                      vendor_code,
+                                      is_active,
+                                      brand_id,
+                                      category_id,
+                                      campaign_id )
+
                             VALUES (
-                                      :name, 
-                                      :code, 
-                                      :vendor_code, 
+                                      :name,
+                                      :code,
+                                      :vendor_code,
                                       :is_active,
                                       :brand_id,
                                       :category_id,

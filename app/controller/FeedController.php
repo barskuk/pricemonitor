@@ -36,7 +36,14 @@ class FeedController
 
             if ($errors == FALSE) {
                 $result = Feed::add($is_active, $type, $mode, $url, $auto, $campId);
+                //
+                if ($type == "yml"){
+                  Feed::importFromYML($url, $campId);
+                }
+                //
             }
+
+
 
         }
 

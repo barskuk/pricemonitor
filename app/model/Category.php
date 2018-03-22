@@ -45,6 +45,22 @@ class Category
 
     }
 
+    //
+    public static function getId($cat_name, $campId) {
+
+        $db = new DB();
+        $sql = 'SELECT id FROM category WHERE name=:name AND campaign_id=:campaign_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':name', $cat_name, PDO::PARAM_STR);
+        $result->bindParam(':campaign_id', $campId, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $id = $result->fetch();
+        return $id[0];
+
+    }
+    //
+
     public static function getTotalCountCategoryInCampagn($campId) {
 
         $db = new DB();
