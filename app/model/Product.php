@@ -201,10 +201,3 @@ class Product
 }
 
 
-
-    private static function addBrand() {
-        return true;
-    }
-
-}
-
