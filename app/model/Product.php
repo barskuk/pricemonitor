@@ -42,6 +42,7 @@ class Product
     public static function productsGrid($page, $campaignId, $count= self::SHOW_BY_DEFAULT) {
 
         $products = self::getProducts($page, $campaignId);
+
         $grid = '';
 
         if (count($products) > 0 && $products != false) {
@@ -50,24 +51,59 @@ class Product
                         <thead>
                             <tr>
                                 <th scope='col'>Название / Бренд / Категория</th>
-                                <th scope='col'>Имя</th>
                                 <th scope='col'>Дата</th>
-                                <th scope='col'>Черновик</th>
-                                <th scope='col'>Url</th>
-                                <th scope='col'>Действия</th>
+                                <th scope='col'>Индекс цены</th>
+                                <th scope='col'>Своя цена</th>
+                                <th scope='col'>Конкуренты</th>
+                                <th scope='col'></th>
                             </tr>
                         </thead>
                     <tbody>";
 
             foreach ($products as $product) {
 
+                if ($product['code'] != NULL) {
+                    $code = $product['code'];
+                } else {
+                    $code = '';
+                }
+                if ($product['vendor_code'] != NULL) {
+                    $vendor_code = $product['vendor_code'];
+                } else {
+                    $vendor_code = '';
+                }
+                if ($product['code'] != NULL && $product['vendor_code'] != NULL) {
+                    $razdel = ' / ';
+                } else {
+                    $razdel = '';
+                }
+                if ($product['code'] != NULL || $product['vendor_code'] != NULL) {
+                    $icon_bar = "<i class='fas fa-barcode'></i> ";
+                    $code_start = '<small class="text-muted pt-1">';
+                    $code_end = '</small>';
+                } else {
+                    $icon_bar = '';
+                    $code_start = '';
+                    $code_end = '';
+                }
+                $is_active = intval($product['is_active']);
+                if ($is_active == 1) {
+                    $active_color = ' text-success';
+                } else {
+                    $active_color = ' text-danger';
+                }
+
+                $codes = $code_start . $icon_bar . $code . $razdel . $vendor_code . $code_end;
+
                 $grid .= '<tr>
-                            <th scope="row">' . $product['name'] . '<br> </th>
-                            <td>1</td>
-                            <td>2</td>
+                            <th scope="row">' . $product['name'] . '<br>' . $codes . '
+                            
+                            </th>
                             <td></td>
                             <td></td>
                             <td></td>
+                            <td>' . $is_active . '</td>
+                            <td><i class="far fa-circle' . $active_color . '"></i></td>
                           </tr>';
 
             }
@@ -93,15 +129,8 @@ class Product
     }
 
 
-    public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_category, $p_brand, $p_is_active) {
+    public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_is_active, $p_category = 1, $p_brand = 1) {
 
-        if ($p_brand != 1) {
-            $p_brand = self::addBrand();
-        }
-
-        if ($p_category != 1) {
-            $p_category = self::addCategory();
-        }
 
         $db = new DB();
 
@@ -155,12 +184,6 @@ class Product
             return FALSE;
         }
 
-    }
-
-
-
-    private static function addBrand() {
-        return true;
     }
 
 }

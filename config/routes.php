@@ -2,6 +2,7 @@
 
 return array(
     'cabinet/campaign/add' => 'campaign/add',
+    'cabinet/campaign/([0-9]+)/products/add/ajax/category' => 'ajax/category/$1',
     'cabinet/campaign/([0-9]+)/products/add' => 'product/add/$1',
     'cabinet/campaign/([0-9]+)/products/all' => 'product/all/$1',
     'cabinet/campaign/([0-9]+)/products/all/([0-9]+)' => 'product/all/$1/$2',

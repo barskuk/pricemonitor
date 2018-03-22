@@ -52,7 +52,7 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
                         <label>Категория</label>
                     </div>
                     <div class="col-9">
-                        <input type="text" class="form-control" name="p_category">
+                        <input id="categoryNameInput" type="text" class="form-control" name="p_category">
                     </div>
                 </div>
             </div>
@@ -82,6 +82,91 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
         </form>
 
     </main>
+    <script type="text/javascript">
+        $(function() {
+
+            $( "#categoryNameInput" ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax({
+                        url: "http://price.loc/app/modules/Ajax.php",
+                        data: {term: request.term, campId: <?php echo $campaignId; ?>},
+                        dataType: "json",
+                        success: function( data ) {
+                            response( $.map( data.myData, function( item ) {
+                                return {
+                                    label: item.catId,
+                                    value: item.catName
+                                }
+                            }));
+                            console.log('ghshksf');
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {console.log("ERROR:" + xhr.responseText+" - "+thrownError);}
+                    });
+                }
+            });
+
+
+            /*$( "#categoryNameInput" ).autocomplete({
+                minLength: 1,
+                source: function (request, response) {
+                    console.log(response);
+                    $.ajax({
+                        type: "POST",
+                        url:"http://price.loc/cabinet/campaign/<?php echo $campaignId; ?>/products/add",
+                        data: { term: request.term },
+                        dataType: 'json',
+                        success: function(data){
+                            console.log(data);
+                            // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
+                            response($.map(data, function(item){
+                                return{
+
+                                    label: item.name,
+                                    value: item.id
+                                }
+                            }));
+
+                        }
+
+                    });
+                }
+            });
+
+            $( "#categoryNameInput" ).autocomplete({
+                source: function(request, response){
+                    console.log(response);
+                    // организуем кроссдоменный запрос
+                    $.ajax({
+                        url: "http://price.loc//cabinet/campaign/<?php echo $campaignId; ?>/products/add",
+                        dataType: "json",
+                        // параметры запроса, передаваемые на сервер (последний - подстрока для поиска):
+                        data:{
+                            name_startsWith: request.term
+                        },
+
+                        // обработка успешного выполнения запроса
+                        success: function(data){
+
+                            // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
+                            response($.map(data, function(item){
+                                return{
+                                    label: item.name,
+                                    value: item.id
+                                }
+                            }));
+
+                        }
+                    });
+                },
+                minLength: 1
+            }); */
+
+
+
+
+
+        });
+    </script>
 
 <?php
 include ROOTDIR . '/app/resources/views/layouts/backend/footer.html';

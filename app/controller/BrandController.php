@@ -43,10 +43,6 @@ class BrandController
 
         $pagination = new Pagination($countBrand, $page, Category::SHOW_BY_DEFAULT, '');
 
-
-
-
-
         require_once(ROOTDIR . '/app/resources/views/cabinet/brand/all.php');
         return true;
 

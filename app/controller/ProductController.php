@@ -69,6 +69,17 @@ class ProductController
             }
 
         }
+
+
+
+        ////
+
+
+
+
+
+        ///////
+
         require_once(ROOTDIR . '/app/resources/views/cabinet/product/add.php');
         return true;
     }
@@ -78,6 +89,8 @@ class ProductController
         $campaignId = $param[0];
 
         $campaign = Campaign::getCampaign($campaignId);
+
+        $sbd = Product::SHOW_BY_DEFAULT;
 
 
         //если не получаем второй параметр (номер страницы) - показываем первую страницу
@@ -97,7 +110,7 @@ class ProductController
 
             $grid = Product::productsGrid($page, $campaignId);
 
-            $pagination = new Pagination($totalProducts, $page, Product::SHOW_BY_DEFAULT, '');
+            $pagination = new Pagination($totalProducts, $page, $sbd, '');
 
         require_once(ROOTDIR . '/app/resources/views/cabinet/product/all.php');
         return true;

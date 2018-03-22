@@ -126,6 +126,34 @@ class Category
                 return false;
             }
     }
+    public static function getCategoryJson($post) {
+
+        $post = '%' . $post . '%';
+
+        $db = new DB();
+
+        $sql = 'SELECT * FROM category WHERE name LIKE :name';
+        $result = $db->prepare($sql);
+
+        $result->bindParam(":name",$post, PDO::PARAM_INT);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+
+        if ($result->rowCount() > 0) {
+            while ($row = $result->fetch()) {
+
+                $category['myData'][] = array(
+                    'catId' => $row['id'],
+                    'catName' => $row['name']
+                );
+            }
+            echo json_encode($category);
+        }
+
+
+
+
+    }
 
 
 }
