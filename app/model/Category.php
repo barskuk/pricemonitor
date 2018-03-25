@@ -45,7 +45,7 @@ class Category
 
     }
 
-    //
+
     public static function getId($cat_name, $campId) {
 
         $db = new DB();
@@ -59,7 +59,7 @@ class Category
         return $id[0];
 
     }
-    //
+
 
     public static function getTotalCountCategoryInCampagn($campId) {
 
@@ -142,6 +142,20 @@ class Category
                 return false;
             }
     }
+
+    public static function getCategoryById($id) {
+
+        $db = new DB();
+        $sql = 'SELECT * FROM category WHERE id=:id';
+
+        $result = $db->prepare($sql);
+        $result->bindParam(':id', $id, PDO::PARAM_INT);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        return $result->fetch();
+
+    }
+
     public static function getCategoryJson($post) {
 
         $post = '%' . $post . '%';

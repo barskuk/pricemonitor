@@ -2,7 +2,7 @@
 
 class Product
 {
-    const SHOW_BY_DEFAULT = 5;
+    const SHOW_BY_DEFAULT = 10;
 
     private static function getProducts($page, $campaignId, $count = self::SHOW_BY_DEFAULT) {
 
@@ -62,6 +62,8 @@ class Product
 
             foreach ($products as $product) {
 
+                $prod = '<a href="' . ROOTSITE . 'cabinet/campaign/' . $campaignId . '/product/' . $product['id'] . '">' . $product['name'] . '</a>';
+
                 if ($product['code'] != NULL) {
                     $code = $product['code'];
                 } else {
@@ -86,6 +88,36 @@ class Product
                     $code_start = '';
                     $code_end = '';
                 }
+                if ($product['brand_id'] != 1 || $product['category_id'] != 1) {
+                    $icon_cat = "<i class='far fa-folder-open'></i> ";
+                    $code_start = '<small class="text-muted pt-1">';
+                    $code_end = '</small>';
+                } else {
+                    $icon_cat = '';
+                    $code_start = '';
+                    $code_end = '';
+                }
+                if ($product['brand_id'] != NULL && $product['category_id'] != NULL) {
+                    $razdel = ' / ';
+                } else {
+                    $razdel = '';
+                }
+                if ($product['category_id'] != 1) {
+                    $categoryId = $product['category_id'];
+                    $categoryArr = Category::getCategoryById($categoryId);
+                    $category = $categoryArr['name'];
+                } else {
+                    $category = '';
+                }
+                if ($product['brand_id'] != 1) {
+                    $brandId = $product['brand_id'];
+                    $brandArr = Brand::getBrandById($brandId);
+                    $brand = $brandArr['name'];
+                } else {
+                    $brand = '';
+                }
+
+
                 $is_active = intval($product['is_active']);
                 if ($is_active == 1) {
                     $active_color = ' text-success';
@@ -93,16 +125,18 @@ class Product
                     $active_color = ' text-danger';
                 }
 
+                $cates = $code_start . $icon_cat . $category . $razdel . $brand . $code_end;
+
                 $codes = $code_start . $icon_bar . $code . $razdel . $vendor_code . $code_end;
 
                 $grid .= '<tr>
-                            <th scope="row">' . $product['name'] . '<br>' . $codes . '
+                            <th scope="row">' . $prod . '<br>' . $codes . '<br>' . $cates . '
                             
                             </th>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>' . $is_active . '</td>
+                            <td></td>
                             <td><i class="far fa-circle' . $active_color . '"></i></td>
                           </tr>';
 
@@ -131,16 +165,6 @@ class Product
 
 
     public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_category = 1, $p_brand = 1, $p_is_active) {
-
-        /*
-        if ($p_brand == -1) {
-            $p_brand = self::addBrand();
-        }
-
-        if ($p_category == -1) {
-            $p_category = self::addCategory();
-        }
-        */
           
 
         $db = new DB();
@@ -170,8 +194,9 @@ class Product
         $result->bindParam(':brand_id', $p_brand, PDO::PARAM_STR);
         $result->bindParam(':category_id', $p_category, PDO::PARAM_STR);
         $result->bindParam(':campaign_id', $campaignId, PDO::PARAM_STR);
+        $result->execute();
 
-        return $result->execute();
+        return $lastId = $db->lastInsertId();
 
         //$arr = $result->errorInfo();
         //print_r($arr);
@@ -195,6 +220,18 @@ class Product
             return FALSE;
         }
 
+    }
+
+    public static function getProductById($id) {
+
+        $db = new DB();
+        $sql = 'SELECT * FROM product WHERE id=:id';
+
+        $result = $db->prepare($sql);
+        $result->bindParam(':id', $id, PDO::PARAM_INT);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        return $result->fetch();
     }
 
 

@@ -21,7 +21,7 @@ class CampaignController
                 $errors['c_name'] = "Имя должно быть длиннее 3 символов";
             }
 
-            if (!Campaign::checkCampaignUrl($c_url)) {
+            if (!GeneralChecks::isUrl($c_url)) {
                 $errors['c_url'] = "Неверная форма введенного домена";
             }
 

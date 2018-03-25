@@ -70,19 +70,10 @@ class ProductController
 
         }
 
-
-
-        ////
-
-
-
-
-
-        ///////
-
         require_once(ROOTDIR . '/app/resources/views/cabinet/product/add.php');
         return true;
     }
+
 
     public function actionAll($param) {
 
@@ -104,7 +95,6 @@ class ProductController
             $page = 1;
         }
 
-        //var_dump($param);
 
         $totalProducts = Product::getTotalCountProductsInCampaign($campaignId);
 
@@ -113,6 +103,59 @@ class ProductController
             $pagination = new Pagination($totalProducts, $page, $sbd, '');
 
         require_once(ROOTDIR . '/app/resources/views/cabinet/product/all.php');
+        return true;
+
+    }
+
+    public function actionCard($param) {
+
+        $campaignId = $param[0];
+        $productId = $param[1];
+
+        $product = Product::getProductById($productId);
+
+        $catName = Category::getCategoryById($product['category_id']);
+        $brandName = Brand::getBrandById($product['brand_id']);
+
+        $countCompetitorProducts = Competitor::getTotalCountCompetitorProducts($productId);
+
+        if (isset($_POST['submit_add_url'])) {
+
+            $new_url = $_POST['product_url'];
+
+            if (GeneralChecks::isUrl($new_url)) {
+
+                $httpCode = GeneralChecks::getHttpResponseCode($new_url);
+
+                if ($httpCode == 200) {
+
+                    if (Competitor::checkCompetitorUrlExist($new_url, $productId)) {
+
+                        //проверка не наш ли это домен
+
+                        $result = Competitor::competitorProductAdd($new_url, $productId);
+
+                    } else {
+                        $errors['new_url_exist'] = 'Неверный формат ссылки!';
+                    }
+
+
+                } else {
+                    $errors['new_url_check'] = 'Ссылка не доступна, полученый код ошибки! ' . $httpCode;
+                }
+
+            } else {
+                $errors['new_url_check'] = 'Неверный формат ссылки!';
+            }
+
+        }
+
+
+        $grid = Competitor::gridCompetitorProducts($productId);
+
+
+
+        require_once(ROOTDIR . '/app/resources/views/cabinet/product/card.php');
         return true;
 
     }

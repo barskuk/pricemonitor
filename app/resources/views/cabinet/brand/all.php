@@ -7,8 +7,8 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
     <main role="main" class="ml-sm-auto col-9 pt-3 px-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2">
             <h1 class="h2">Бренды в "<?php echo $campaign['name']; ?>"</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <a class="btn btn-primary btn-primary" href="#" role="button">Добавить</a>
+            <div class="btn-toolbar mb-2 mb-0">
+                <a id="buttonForHideForm" class="btn btn-primary btn-primary" href="#" role="button">Добавить</a>
             </div>
         </div>
 
@@ -21,9 +21,11 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
             }
         ?>
 
-        <form class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2" action="" method="post">
-            <input type="text" class="form-control mr-4" name="b_name" placeholder="Новая категория">
-            <div class="btn-toolbar mb-2 mb-md-0"><button type="submit" name="submit" class="btn btn-primary">Добавить</button></div>
+        <form action="" method="post">
+            <div class="d-flex justify-content-between align-items-center pb-2" id="hideForm" style="display: none">
+                <input type="text" class="form-control mr-4" name="b_name" placeholder="Новая категория">
+                <div class="btn-toolbar mb-2 mb-md-0"><button type="submit" name="submit" class="btn btn-primary">Добавить</button></div>
+            </div>
         </form>
 
         <?php if ($countBrand == 0) {

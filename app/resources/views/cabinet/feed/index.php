@@ -98,7 +98,11 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
             echo $grid;
         } ?>
 
-        <?php echo $pagination->get(); ?>
+        <?php
+            if ($countFeeds > $countInPage) {
+                echo $pagination->get();
+            }
+        ?>
 
     </main>
 

@@ -25,16 +25,6 @@ class Campaign
         return FALSE;
     }
 
-    //Помните, что URL не содержащий имя протокола http:// является корректный, так что может потребоваться дополнительная проверка того,
-    // что URL использует требуемый протокол, например ssh:// или mailto:.
-    // Обратите внимание, что эта функция считает корректными только URL, состоящие из символов ASCII;
-    // Интернациональные доменные имена не пройдут проверку.
-    public static function checkCampaignUrl($c_url) {
-        if (filter_var($c_url, FILTER_VALIDATE_URL)) {
-            return TRUE;
-        }
-        return FALSE;
-    }
 
     public static function getCampaignIds($customerId) {
 

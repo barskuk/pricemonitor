@@ -7,6 +7,7 @@ class FeedController
 
         $campId = $param[0];
         $campaign = Campaign::getCampaign($campId);
+        $countInPage = Feed::SHOW_BY_DEFAULT;
 
         if (isset($_POST['submit'])) {
 
@@ -30,20 +31,18 @@ class FeedController
                 $auto = 0;
             }
 
-            if (!Campaign::checkCampaignUrl($url)) {
+            if (!GeneralChecks::isUrl($url)) {
                 $errors['url'] = "Неверная форма адреса";
             }
 
             if ($errors == FALSE) {
                 $result = Feed::add($is_active, $type, $mode, $url, $auto, $campId);
-                //
+
                 if ($type == "yml"){
                   Feed::importFromYML($url, $campId);
                 }
-                //
+
             }
-
-
 
         }
 
@@ -59,6 +58,7 @@ class FeedController
         } else {
             $page = 1;
         }
+
 
         $grid = Feed::feedGrid($page, $campId);
 
