@@ -9,6 +9,8 @@ function __autoload($className) {
         '/app/model/'
     );
 
+    include_once ROOTDIR."/modules/simple_html_dom.php";
+
     foreach ($arrayPath as $path) {
         $path = ROOTDIR . $path . $className . '.php';
         if (is_file($path)) {

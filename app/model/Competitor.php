@@ -52,6 +52,22 @@ class Competitor
 
     }
 
+    //
+    public static function getCompetitorId($url, $prodId) {
+
+        $db = new DB();
+        $sql = 'SELECT id FROM competitor_product WHERE product_url=:product_url AND product_id=:product_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':product_url', $url, PDO::PARAM_STR);
+        $result->bindParam(':product_id', $prodId, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $id = $result->fetch();
+
+        return $id[0];
+    }
+    //
+
     public static function addCompetitorPrice($competitor_product_id, $price, $in_stock = 1) {
 
         $db = new DB();

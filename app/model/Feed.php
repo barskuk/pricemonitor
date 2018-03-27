@@ -69,7 +69,7 @@ class Feed
         if (isset($feedsList)) {
             return $feedsList;
         } else {
-            return false;
+            return false; //Warning: count(): Parameter must be an array or an object that implements Countable in D:\xampp\htdocs\Proj\pricemonitor\app\model\Feed.php on line 84 => (false -> [])
         }
 
     }
@@ -140,7 +140,7 @@ class Feed
 
                 $grid .= '<tr>
                             <td scope="row">' . $feed . '<div class="mt-2">' . $badgeType . $badgeMode . '</div>
-                            
+
                             </td>
                             <td>' . $auto . '</td>
                             <td><i class="far fa-circle' . $active_color . '"></i></td>
@@ -173,6 +173,10 @@ class Feed
                 }
                 if ($param->getName() == "offers") {
                     foreach ($param->children() as $offer) {
+                        //default parametrs for each offer
+                        $offers[(int)$offer["id"]]["vendor"] = "NoBrand";
+                        $vendors["NoBrand"] = -1;
+
                         foreach ($offer->children() as $data) {
                             $offers[(int)$offer["id"]]["available"] = ($offer["available"] == TRUE) ? 1 : 0;
                             if ($data->getName() == "url") $offers[(int)$offer["id"]][$data->getName()] = (string)$data;
@@ -206,11 +210,10 @@ class Feed
             if (Product::checkCodeProductExist($code, $campId)) {
                 $product_id = Product::add($campId, $offer["name"], $code, $offer["vendorCode"], (int)$categoriesDB[$categories[$offer["categoryId"]]], (int)$vendors[$offer["vendor"]], $offer["available"]);
                 $competitor_product_id = Competitor::competitorProductAdd($offer["url"], (int)$product_id, 1);
+                //подтягиваем нашу цену первый раз
+                Competitor::addCompetitorPrice($competitor_product_id, $offer["price"]);
+
             }
-
-            //подтягиваем нашу цену первый раз
-            Competitor::addCompetitorPrice($competitor_product_id, $offer["price"]);
-
         }
 
     }

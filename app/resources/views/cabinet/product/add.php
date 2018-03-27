@@ -106,64 +106,6 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
             });
 
 
-            /*$( "#categoryNameInput" ).autocomplete({
-                minLength: 1,
-                source: function (request, response) {
-                    console.log(response);
-                    $.ajax({
-                        type: "POST",
-                        url:"http://price.loc/cabinet/campaign/<?php echo $campaignId; ?>/products/add",
-                        data: { term: request.term },
-                        dataType: 'json',
-                        success: function(data){
-                            console.log(data);
-                            // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
-                            response($.map(data, function(item){
-                                return{
-
-                                    label: item.name,
-                                    value: item.id
-                                }
-                            }));
-
-                        }
-
-                    });
-                }
-            });
-
-            $( "#categoryNameInput" ).autocomplete({
-                source: function(request, response){
-                    console.log(response);
-                    // организуем кроссдоменный запрос
-                    $.ajax({
-                        url: "http://price.loc//cabinet/campaign/<?php echo $campaignId; ?>/products/add",
-                        dataType: "json",
-                        // параметры запроса, передаваемые на сервер (последний - подстрока для поиска):
-                        data:{
-                            name_startsWith: request.term
-                        },
-
-                        // обработка успешного выполнения запроса
-                        success: function(data){
-
-                            // приведем полученные данные к необходимому формату и передадим в предоставленную функцию response
-                            response($.map(data, function(item){
-                                return{
-                                    label: item.name,
-                                    value: item.id
-                                }
-                            }));
-
-                        }
-                    });
-                },
-                minLength: 1
-            }); */
-
-
-
-
 
         });
     </script>

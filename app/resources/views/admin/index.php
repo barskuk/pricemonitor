@@ -1,4 +1,5 @@
 <?php
+
 include ROOTDIR . '/app/resources/views/layouts/system/head.html';
 include ROOTDIR . '/app/resources/views/layouts/system/topbar.html';
 include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
@@ -16,6 +17,14 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
         </div>
     </div>
 </div>
+
+<form action="" method="post">
+    <div class="d-flex justify-content-between align-items-center pb-2" id="hideForm">
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <button type="submit" name="submit" class="btn btn-primary" value = "UpdatePrices">UpdatePrices</button>
+        </div>
+    </div>
+</form>
 
 
 <div class="row">
