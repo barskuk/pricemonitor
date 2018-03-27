@@ -32,7 +32,10 @@ class FeedController
             }
 
             if (!GeneralChecks::isUrl($url)) {
-                $errors['url'] = "Неверная форма адреса";
+                $errors['url'] = "Неверная форма адреса!";
+            }
+            if (!Feed::checkFeedUrlExist($url, $campId)) {
+                $errors['url_exist'] = "Фид уже добавлен!";
             }
 
             if ($errors == FALSE) {

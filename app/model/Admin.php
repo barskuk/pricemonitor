@@ -99,34 +99,39 @@ public static function getSelector(/*$product_url*/){
         $curl->init();
         $selectors = static::getSelector();
         foreach($product_url_list as $productID => $product_url){
-              $selector = $selectors[static::getURLHOST($product_url)];
-              $data = $curl->get($product_url);
+            if(array_key_exists(static::getURLHOST($product_url),$selectors)){
+                $selector = $selectors[static::getURLHOST($product_url)];
+                $data = $curl->get($product_url);
 
-              $simple_html = str_get_html($data);
+                $simple_html = str_get_html($data);
 
-              if ($simple_html != FALSE){
-                $price_html = $simple_html->find($selector, 0);
-                if($price_html != NULL){
-                  $price = $price_html->innertext;
-                  $price = intval(str_replace(array(' ','&nbsp;'),'',$price));
-                  $price_list[$productID]["price"] = $price;
-                  $price_list[$productID]["in_stock"] = 1; //
+                if ($simple_html != FALSE){
+                    $price_html = $simple_html->find($selector, 0);
+                    if($price_html != NULL){
+                        $price = $price_html->innertext;
+                        $price = intval(str_replace(array(' ','&nbsp;'),'',$price));
+                        $price_list[$productID]["price"] = $price;
+                        $price_list[$productID]["in_stock"] = 1; //
+                    }
+                    else{
+                        //No price found
+                        $price_list[$productID]["price"] = -1;
+                        $price_list[$productID]["in_stock"] = 0; //
+                    }
                 }
                 else{
-                  //No price found
-                  $price_list[$productID]["price"] = -1;
-                  $price_list[$productID]["in_stock"] = 0; //
+                    //Парсер не найден
                 }
+            }
+            else {
+                //$price_list[$product_url] = "Error: simple_html";
+            }
         }
-        else {
-          //$price_list[$product_url] = "Error: simple_html";
-        }
-      }
-      $curl->close();
+        $curl->close();
 
-      return $price_list;
+        return $price_list;
     }
-  }
+}
 
 
 ?>

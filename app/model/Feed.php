@@ -19,6 +19,24 @@ class Feed
         return $count[0];
 
     }
+    public static function checkFeedUrlExist($url, $campaign_id) {
+
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) FROM feed WHERE url=:url AND campaign_id=:campaign_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':url', $url, PDO::PARAM_STR);
+        $result->bindParam(':campaign_id', $campaign_id, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
+
+        if ($count[0] == 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+    }
 
     public static function add($is_active, $type, $mode, $url, $auto, $campId)
     {
