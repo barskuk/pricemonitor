@@ -131,7 +131,7 @@ class Product
 
                 $grid .= '<tr>
                             <th scope="row">' . $prod . '<br>' . $codes . '<br>' . $cates . '
-                            
+
                             </th>
                             <td></td>
                             <td></td>
@@ -165,7 +165,7 @@ class Product
 
 
     public static function add($campaignId, $p_name, $p_code, $p_vendor_code, $p_category = 1, $p_brand = 1, $p_is_active) {
-          
+
 
         $db = new DB();
 
@@ -222,6 +222,22 @@ class Product
 
     }
 
+    //
+    public static function getProductId($code, $campaignId) {
+
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) FROM product WHERE code=:code AND campaign_id=:campaign_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':code', $code, PDO::PARAM_STR);
+        $result->bindParam(':campaign_id', $campaignId, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $id = $result->fetch();
+
+        return $id;
+    }
+    //
+
     public static function getProductById($id) {
 
         $db = new DB();
@@ -236,5 +252,3 @@ class Product
 
 
 }
-
-
