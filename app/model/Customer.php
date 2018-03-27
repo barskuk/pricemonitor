@@ -119,7 +119,17 @@ class Customer
             }
             return FALSE;
         }
+    }
+    public static function getCountCustomers() {
 
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) from customer';
+        $result = $db->prepare($sql);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
+
+        return $count[0];
 
     }
 

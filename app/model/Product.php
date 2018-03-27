@@ -53,7 +53,7 @@ class Product
                                 <th scope='col'>Название / Бренд / Категория</th>
                                 <th scope='col'>Дата</th>
                                 <th scope='col'>Индекс цены</th>
-                                <th scope='col'>Своя цена</th>
+                                <th scope='col'>Моя цена</th>
                                 <th scope='col'>Конкуренты</th>
                                 <th scope='col'></th>
                             </tr>
@@ -129,13 +129,23 @@ class Product
 
                 $codes = $code_start . $icon_bar . $code . $razdel . $vendor_code . $code_end;
 
+                $lastOurPriceArr = Report::getLastPrice(Report::getOurCompetitorProductId($product['id']));
+                if ((int)$lastOurPriceArr['price'] > 0) {
+                    $lastOurPrice = '<span class="font-weight-bold">' . $lastOurPriceArr['price'] . ' руб.</span>';
+                    $lastPriceDate ='<span class="text-muted">' . $lastOurPriceArr['timestamp'] . '</span>';
+                } else {
+                    $lastOurPrice = '';
+                    $lastPriceDate ='';
+                }
+
+
                 $grid .= '<tr>
                             <th scope="row">' . $prod . '<br>' . $codes . '<br>' . $cates . '
                             
                             </th>
+                            <td>' . $lastPriceDate . '</td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td>' . $lastOurPrice . '</td>
                             <td></td>
                             <td><i class="far fa-circle' . $active_color . '"></i></td>
                           </tr>';
@@ -155,6 +165,18 @@ class Product
         $sql = 'SELECT COUNT(*) from product WHERE campaign_id=:campaign_id';
         $result = $db->prepare($sql);
         $result->bindParam(':campaign_id', $campaignId, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
+
+        return $count[0];
+    }
+
+    public static function getCountProducts() {
+
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) from product';
+        $result = $db->prepare($sql);
         $result->execute();
         $result->setFetchMode(PDO::FETCH_NUM);
         $count = $result->fetch();

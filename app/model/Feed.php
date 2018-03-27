@@ -197,7 +197,6 @@ class Feed
             $categoriesDB[$cat_name] = Category::getId($cat_name, $campId);
         }
 
-
         foreach ($vendors as $vendor_name => $vendor_id) {
             if (Brand::checkNameExist($vendor_name, $campId)) Brand::add($vendor_name, $campId);
             $vendors[$vendor_name] = Brand::getId($vendor_name, $campId);

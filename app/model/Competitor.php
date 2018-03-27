@@ -117,12 +117,18 @@ class Competitor
 
             foreach ($items as $item) {
 
-                $lastPrice = Competitor::getLastPrice($item['id']);
+                $lastPrice = Report::getLastPrice($item['id']);
 
                 if (intval($lastPrice['in_stock']) == 1) {
                     $in_stock = '<i class="far fa-check text-success"></i>';
                 } else {
                     $in_stock ='';
+                }
+
+                if ((int)$lastPrice['price'] > 0) {
+                    $lstprc = '<span class="font-weight-bold">' . $lastPrice['price'] . ' руб.</span>';
+                } else {
+                    $lstprc = '';
                 }
 
 
@@ -137,8 +143,8 @@ class Competitor
 
                 $grid .= '<tr>
                             <td scope="row">' . $is_home . $url . ' <i class="far fa-external-link text-primary"></i></td>
-                            <td>' . $lastPrice['timestamp'] . '</td>
-                            <td>'. $lastPrice['price'] . '</td>
+                            <td><span class="text-muted">' . $lastPrice['timestamp'] . '</span></td>
+                            <td>'. $lstprc . '</td>
                             <td>' . $in_stock . '</td>
                             <td></td>
                           </tr>';
@@ -152,19 +158,16 @@ class Competitor
 
     }
 
-    public static function getLastPrice($competitor_product_id) {
+    public static function getCountCompetitorPrices() {
 
         $db = new DB();
-        $sql = 'SELECT * FROM price WHERE competitor_product_id=:competitor_product_id ORDER BY timestamp DESC';
-
+        $sql = 'SELECT COUNT(*) from price';
         $result = $db->prepare($sql);
-        $result->bindParam(':competitor_product_id', $competitor_product_id, PDO::PARAM_INT);
         $result->execute();
-        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
 
-
-        return $row = $result->fetch();
-
+        return $count[0];
     }
 
 

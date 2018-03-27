@@ -62,5 +62,17 @@ class Campaign
         return $campaign;
     }
 
+    public static function getCountCampaigns() {
+
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) from campaign';
+        $result = $db->prepare($sql);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
+
+        return $count[0];
+    }
+
 
 }
