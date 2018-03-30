@@ -13,6 +13,16 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
         </div>
 
         <?php include ROOTDIR . '/app/resources/views/layouts/backend/breadcrumb.html'; ?>
+        <!-- Временные крошки -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet">Главная</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet"><i class="far fa-home"></i> Кампании</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet/campaign/<?php echo $campaign['id']; ?>/dashboard"><i class="far fa-database"></i> <?php echo $campaign['name']; ?></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="far fa-folder-open"></i> Фиды</li>
+            </ol>
+        </nav>
+        <!-- /Временные крошки -->
 
         <?php include ROOTDIR . '/app/resources/views/layouts/frontend/error.php'; ?>
         <?php

@@ -9,6 +9,17 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
             <h1 class="h2">Новый товар</h1>
         </div>
 
+        <!-- Временные крошки -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet">Главная</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet"><i class="far fa-home"></i> Кампании</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet/campaign/<?php echo $campaign['id']; ?>/dashboard"><i class="far fa-database"></i> <?php echo $campaign['name']; ?></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="far fa-plus-square"></i> Добавление товара</li>
+            </ol>
+        </nav>
+        <!-- /Временные крошки -->
+
         <?php include ROOTDIR . '/app/resources/views/layouts/frontend/error.php'; ?>
         <?php
         if ($result == TRUE && $errors == FALSE) {

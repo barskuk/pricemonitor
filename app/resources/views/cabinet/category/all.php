@@ -12,7 +12,17 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
             </div>
         </div>
 
-        <?php include ROOTDIR . '/app/resources/views/layouts/backend/breadcrumb.html'; ?>
+        <?php include  ROOTDIR . '/app/resources/views/layouts/backend/breadcrumb.html'; ?>
+        <!-- Временные крошки -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet">Главная</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet"><i class="far fa-home"></i> Кампании</a></li>
+                <li class="breadcrumb-item"><a href="<?php echo ROOTSITE; ?>cabinet/campaign/<?php echo $campaign['id']; ?>/dashboard"><i class="far fa-database"></i> <?php echo $campaign['name']; ?></a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="far fa-folder-open"></i> Категории</li>
+            </ol>
+        </nav>
+        <!-- /Временные крошки -->
 
         <?php include ROOTDIR . '/app/resources/views/layouts/frontend/error.php'; ?>
         <?php
@@ -32,10 +42,14 @@ include ROOTDIR . '/app/resources/views/layouts/backend/sidebar.html';
         <?php if ($countCategory == 0) {
             echo "<div class='alert alert-warning mt-4' role='alert'>У Кампании нет категорий!</div>";
         } else {
-            echo $grid;
-        } ?>
 
-        <?php echo $pagination->get(); ?>
+            echo $grid;
+            if ($countCategory > $sbd) {
+
+                echo $pagination->get();
+
+            }
+        } ?>
 
 
     </main>

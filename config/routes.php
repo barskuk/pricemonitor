@@ -10,13 +10,10 @@ return array(
     'cabinet/campaign/([0-9]+)/category/all' => 'category/all/$1',
     'cabinet/campaign/([0-9]+)/brands/all' => 'brand/all/$1',
     'cabinet/campaign/([0-9]+)/products/import' => 'feed/index/$1',
-
-
-
     'cabinet/campaign/([0-9]+)/dashboard' => 'cabinet/dashboard/$1',
+    'cabinet/campaign/([0-9]+)/competitors/all' => 'competitor/all/$1',
 
-
-    'cabinet/campaign/([0-9]+)/competitors/all' => 'cabinet/dashboard/$1',
+    'cabinet/campaign/([0-9]+)/reports/instock' => 'report/instock/$1',
 
 
     'cabinet/campaign/([0-9]+)/settings' => 'cabinet/dashboard/$1',

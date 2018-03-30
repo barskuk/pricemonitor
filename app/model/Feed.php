@@ -101,12 +101,13 @@ class Feed
 
         if (count($items) > 0 && $items != false) {
 
-            $grid = "<table class='table table-bordered'>
-                        <thead>
+            $grid = "<table class='table table-hover'>
+                        <thead class='thead-light'>
                             <tr>
                                 <th scope='col'>Ссылка на фид</th>
                                 <th scope='col'>Авто</th>
-                                <th scope='col'></th>
+                                <th scope='col'>Активен</th>
+                                <th scope='col' class='text-right'>Действия</th>
                             </tr>
                         </thead>
                     <tbody>";
@@ -162,6 +163,7 @@ class Feed
                             </td>
                             <td>' . $auto . '</td>
                             <td><i class="far fa-circle' . $active_color . '"></i></td>
+                            <td class="text-right"><i class="far fa-trash-alt text-danger"></i> <i class="far fa-pencil text-success ml-2"></i></td>
                           </tr>';
 
             }
@@ -192,8 +194,8 @@ class Feed
                 if ($param->getName() == "offers") {
                     foreach ($param->children() as $offer) {
                         //default parametrs for each offer
-                        $offers[(int)$offer["id"]]["vendor"] = "NoBrand";
-                        $vendors["NoBrand"] = -1;
+                        $offers[(int)$offer["id"]]["vendor"] = "Без бренда";
+                        $vendors["Без бренда"] = -1;
 
                         foreach ($offer->children() as $data) {
                             $offers[(int)$offer["id"]]["available"] = ($offer["available"] == TRUE) ? 1 : 0;
@@ -227,9 +229,22 @@ class Feed
         foreach ($offers as $code => $offer) {
             if (Product::checkCodeProductExist($code, $campId)) {
                 $product_id = Product::add($campId, $offer["name"], $code, $offer["vendorCode"], (int)$categoriesDB[$categories[$offer["categoryId"]]], (int)$vendors[$offer["vendor"]], $offer["available"]);
-                $competitor_product_id = Competitor::competitorProductAdd($offer["url"], (int)$product_id, 1);
+
+
+                //проверяем создан ли наш Competitor
+                if (Competitor::getHomeCompetitorId($campId)) {
+                    $homeCompetitotId = Competitor::getHomeCompetitorId($campId);
+                } else {
+                    //если нет, то создаем
+                    $hostArr = parse_url($offer["url"]);
+                    $host = $hostArr['host'];
+                    $homeCompetitotId = Competitor::add($host, $campId, 1);
+                }
+
+                $competitor_product_id = Competitor::competitorProductAdd($offer["url"], (int)$product_id, $homeCompetitotId);
                 //подтягиваем нашу цену первый раз
                 Competitor::addCompetitorPrice($competitor_product_id, $offer["price"]);
+
 
             }
         }

@@ -15,6 +15,8 @@ class ProductController
 
         $result = FALSE;
 
+        $campaign = Campaign::getCampaign($campaignId);
+
         if (isset($_POST['submit'])) {
 
             $errors = FALSE;
@@ -111,6 +113,8 @@ class ProductController
 
         $campaignId = $param[0];
         $productId = $param[1];
+        $campaign = Campaign::getCampaign($campaignId);
+
 
         $product = Product::getProductById($productId);
 
@@ -131,14 +135,25 @@ class ProductController
 
                     if (Competitor::checkCompetitorUrlExist($new_url, $productId)) {
 
-                        //проверка не наш ли это домен
+                        //получаем хост
+                        $hostArr = parse_url($new_url);
+                        $host = $hostArr['host'];
 
-                        $result = Competitor::competitorProductAdd($new_url, $productId);
+                        //проверяем есть ли Конкурент с таким хостом
+                        $competitor_id = Competitor::checkCompetitorExist($host,$campaignId);
+
+                        //если есть то добавляем товар
+                        if ($competitor_id) {
+                            $result = Competitor::competitorProductAdd($new_url,$productId,$competitor_id);
+                        } else { //если нет добавляем нового Конкурента после чего добавляем товар
+                            $new_competitor_id = Competitor::add($host,$campaignId);
+                            $result = Competitor::competitorProductAdd($new_url,$productId,$new_competitor_id);
+
+                        }
 
                     } else {
-                        $errors['new_url_exist'] = 'Неверный формат ссылки!';
+                        $errors['new_url_exist'] = 'Ссылка уже была добавлена!';
                     }
-
 
                 } else {
                     $errors['new_url_check'] = 'Ссылка не доступна, полученый код ошибки! ' . $httpCode;
@@ -151,7 +166,7 @@ class ProductController
         }
 
 
-        $grid = Competitor::gridCompetitorProducts($productId);
+        $grid = Competitor::gridCompetitorProducts($productId, $campaignId);
 
 
 

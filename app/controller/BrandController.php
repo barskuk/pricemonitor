@@ -7,6 +7,8 @@ class BrandController
         $campId = $param[0];
         $campaign = Campaign::getCampaign($campId);
 
+        $sbd = Brand::SHOW_BY_DEFAULT;
+
         if (isset($_POST['submit'])) {
 
             $errors = FALSE;
@@ -41,7 +43,7 @@ class BrandController
 
         $grid = Brand::brandGrid($page, $campId);
 
-        $pagination = new Pagination($countBrand, $page, Category::SHOW_BY_DEFAULT, '');
+        $pagination = new Pagination($countBrand, $page, Brand::SHOW_BY_DEFAULT, '');
 
         require_once(ROOTDIR . '/app/resources/views/cabinet/brand/all.php');
         return true;

@@ -9,22 +9,17 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
     <div class="col-sm-12">
         <div class="page-title-box">
             <h4 class="page-title">Рабочий стол</h4>
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="#">Minton</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
+            <form action="" method="post">
+                <div class="float-right" id="hideForm">
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="submit" name="submit" class="btn btn-primary" value = "UpdatePrices">UpdatePrices</button>
+                    </div>
+                </div>
+            </form>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-
-<form action="" method="post">
-    <div class="d-flex justify-content-between align-items-center pb-2" id="hideForm">
-        <div class="btn-toolbar mb-2 mb-md-0">
-          <button type="submit" name="submit" class="btn btn-primary" value = "UpdatePrices">UpdatePrices</button>
-        </div>
-    </div>
-</form>
 
 
 <div class="row">
@@ -79,7 +74,7 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
 </div>
 <!-- end row -->
 
-
+<!--
 <div class="row">
     <div class="col-lg-7">
         <div class="card-box">
@@ -109,7 +104,7 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
 <!-- end row -->
 
 
-
+<!--
 <div class="row">
     <div class="col-lg-8">
         <div class="card-box">
@@ -179,7 +174,7 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
         </div>
     </div>
     <!-- end col -8 -->
-
+<!--
     <div class="col-lg-4">
         <div class="card-box widget-user">
             <div>
@@ -214,7 +209,7 @@ include ROOTDIR . '/app/resources/views/layouts/system/sidebar.html';
             </div>
         </div>
 
-    </div>
+    </div>-->
 
 <?php
 include ROOTDIR . '/app/resources/views/layouts/system/footer.html';

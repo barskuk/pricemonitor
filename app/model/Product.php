@@ -2,7 +2,7 @@
 
 class Product
 {
-    const SHOW_BY_DEFAULT = 10;
+    const SHOW_BY_DEFAULT = 30;
 
     private static function getProducts($page, $campaignId, $count = self::SHOW_BY_DEFAULT) {
 
@@ -47,8 +47,8 @@ class Product
 
         if (count($products) > 0 && $products != false) {
 
-            $grid = "<table class='table table-bordered'>
-                        <thead>
+            $grid = "<table class='table table-hover'>
+                        <thead class='thead-light'>
                             <tr>
                                 <th scope='col'>Название / Бренд / Категория</th>
                                 <th scope='col'>Дата</th>
@@ -61,6 +61,24 @@ class Product
                     <tbody>";
 
             foreach ($products as $product) {
+
+
+                $competitorPrices = Report::getCompetitorPricesByProduct($product['id'],$campaignId);
+
+
+                if ($competitorPrices) {
+
+                    if (count($competitorPrices) > 1) {
+
+                        $competitorPricePrint = 'Несколько цен';
+
+                    } else {
+                        $competitorPricePrint = $competitorPrices[0] . ' руб.';
+                    }
+
+                } else {
+                    $competitorPricePrint = '';
+                }
 
                 $prod = '<a href="' . ROOTSITE . 'cabinet/campaign/' . $campaignId . '/product/' . $product['id'] . '">' . $product['name'] . '</a>';
 
@@ -129,7 +147,8 @@ class Product
 
                 $codes = $code_start . $icon_bar . $code . $razdel . $vendor_code . $code_end;
 
-                $lastOurPriceArr = Report::getLastPrice(Report::getOurCompetitorProductId($product['id']));
+                $lastOurPriceArr = Report::getOurLastPrice($product['id'],$campaignId);
+
                 if ((int)$lastOurPriceArr['price'] > 0) {
                     $lastOurPrice = '<span class="font-weight-bold">' . $lastOurPriceArr['price'] . ' руб.</span>';
                     $lastPriceDate ='<span class="text-muted">' . $lastOurPriceArr['timestamp'] . '</span>';
@@ -139,14 +158,44 @@ class Product
                 }
 
 
+                //ценовой индекс
+                if (isset($competitorPrices[0])) {
+
+                    $ip = round($competitorPrices[0] / $lastOurPriceArr['price'] * 100);
+
+                    if ($ip < 95 && $ip >= 80) {
+
+                        $ip_color = 'text-warning';
+
+                    } elseif ($ip < 80) {
+
+                        $ip_color = 'text-danger';
+
+                    } elseif ($ip >= 95) {
+                        $ip_color = 'text-success';
+
+                    } else {
+                        $ip_color = '';
+                    }
+
+
+                    $ip_print = $ip;
+
+                } else {
+                    $ip_print = '';
+                    $ip_color = '';
+                }
+                //ценовой индекс
+
+
                 $grid .= '<tr>
                             <th scope="row">' . $prod . '<br>' . $codes . '<br>' . $cates . '
 
                             </th>
                             <td>' . $lastPriceDate . '</td>
-                            <td></td>
+                            <td class="text-center ' . $ip_color . '"><span class="font-weight-bold">' . $ip_print . '</span></td>
                             <td>' . $lastOurPrice . '</td>
-                            <td></td>
+                            <td>' . $competitorPricePrint . '</td>
                             <td><i class="far fa-circle' . $active_color . '"></i></td>
                           </tr>';
 

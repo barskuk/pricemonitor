@@ -13,8 +13,29 @@ class Campaign
         $result->bindParam(':url', $c_url, PDO::PARAM_STR);
         $result->bindParam(':region', $c_region, PDO::PARAM_STR);
         $result->bindParam(':customer_id', $customerId, PDO::PARAM_STR);
+        $result->execute();
 
-        return $result->execute();
+        return $lastId = $db->lastInsertId();
+    }
+
+    public static function checkCampaingExist($name, $customer_id) {
+
+        $db = new DB();
+        $sql = 'SELECT COUNT(*) FROM campaign WHERE name=:name AND customer_id=:customer_id';
+        $result = $db->prepare($sql);
+        $result->bindParam(':name', $name, PDO::PARAM_STR);
+        $result->bindParam(':customer_id', $customer_id, PDO::PARAM_STR);
+        $result->execute();
+        $result->setFetchMode(PDO::FETCH_NUM);
+        $count = $result->fetch();
+
+        if ($count[0] == 0) {
+            return TRUE;
+        } else {
+            return FALSE;
+        }
+
+
     }
 
 

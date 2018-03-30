@@ -2,7 +2,7 @@
 
 class Category
 {
-    const SHOW_BY_DEFAULT = 5;
+    const SHOW_BY_DEFAULT = 20;
 
     public static function add($cat_name, $campId) {
 
@@ -82,15 +82,13 @@ class Category
         $grid = '';
 
         if (count($category) > 0 && $category != false) {
-            $grid = "<table class='table table-bordered'>
-                        <thead>
+            $grid = "<table class='table table-hover'>
+                        <thead class='thead-light'>
                             <tr>
-                                <th scope='col'>Название / Бренд / Категория</th>
-                                <th scope='col'>Имя</th>
-                                <th scope='col'>Дата</th>
-                                <th scope='col'>Черновик</th>
-                                <th scope='col'>Url</th>
-                                <th scope='col'>Действия</th>
+                                <th scope='col'>Категория</th>
+                                <th scope='col'>Индекс цены</th>
+                                <th scope='col'>Отчет по цене</th>
+                                <th scope='col' class='text-right'>Действия</th>
                             </tr>
                         </thead>
                     <tbody>";
@@ -99,11 +97,9 @@ class Category
 
                 $grid .= '<tr>
                             <th scope="row">' . $cat['name'] . '<br> </th>
-                            <td>1</td>
-                            <td>2</td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td class="text-right"><i class="far fa-trash-alt text-danger"></i> <i class="far fa-pencil text-success ml-2"></i></td>
                           </tr>';
 
             }

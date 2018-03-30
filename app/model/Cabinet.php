@@ -16,7 +16,7 @@ class Cabinet
 
                 $campaign = Campaign::getCampaign($campId);
 
-                $result .= "<nav class='navbar navbar-light mb-2' style='background-color: #e3f2fd;'>
+                $result .= "<nav id='camp-" . $campId . "' class='navbar navbar-light mb-2' style='background-color: #e3f2fd;'>
                                 <a class='navbar-brand' href='#'>" . $campaign['name'] . "</a>";
 
                 $result .= "<button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#campaign-" . $campaign['id'] . "' aria-controls='campaign-" . $campaign['id'] . "' aria-expanded='false' aria-label='Toggle navigation'>

@@ -7,6 +7,8 @@ class CategoryController
         $campId = $param[0];
         $campaign = Campaign::getCampaign($campId);
 
+        $sbd = Category::SHOW_BY_DEFAULT;
+
         if (isset($_POST['submit'])) {
 
             $errors = FALSE;
